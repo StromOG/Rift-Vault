@@ -1,0 +1,94 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- Obsidian Aurora — Signature Cosmic Slate Dark Theme     -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+
+    <!-- Base Canvas & Layered Luminance -->
+    <Color x:Key="BackgroundColor">#090C15</Color>
+    <Color x:Key="SurfaceColor">#111626</Color>
+    <Color x:Key="SurfaceRaisedColor">#182035</Color>
+
+    <!-- Signature Brand Accent (Electric Indigo / Violet Aura) -->
+    <Color x:Key="AccentColor">#6366F1</Color>
+    <Color x:Key="AccentAltColor">#818CF8</Color>
+
+    <!-- Perceptual Typography Hierarchy (WCAG AAA High-Contrast) -->
+    <Color x:Key="TextPrimaryColor">#F8FAFC</Color>
+    <Color x:Key="TextSecondaryColor">#94A3B8</Color>
+    <Color x:Key="TextDimColor">#64748B</Color>
+
+    <!-- Semantic Status -->
+    <Color x:Key="SuccessColor">#34D399</Color>
+    <Color x:Key="WarningColor">#FBBF24</Color>
+    <Color x:Key="ErrorColor">#F87171</Color>
+
+    <!-- Micro-Interactions & Borders -->
+    <Color x:Key="BorderColor">#1F2740</Color>
+    <Color x:Key="SelectionColor">#1E274A</Color>
+    <Color x:Key="HoverColor">#151C30</Color>
+
+    <!-- ─── Core Solid Brushes ──────────────────────────────── -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="{StaticResource SurfaceRaisedColor}"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentAltBrush" Color="{StaticResource AccentAltColor}"/>
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="TextDimBrush" Color="{StaticResource TextDimColor}"/>
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="SelectionBrush" Color="{StaticResource SelectionColor}"/>
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
+
+    <!-- ─── Subtle Backdrop Atmosphere Gradient ────────────── -->
+    <LinearGradientBrush x:Key="WindowBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#070A12" Offset="0.0"/>
+        <GradientStop Color="#0E1322" Offset="0.5"/>
+        <GradientStop Color="#090C16" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- ─── Floating Island & Card Brushes ─────────────────── -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#111626"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#1F2740"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#182035"/>
+    <SolidColorBrush x:Key="TabActiveBrush" Color="#1A223B"/>
+    <SolidColorBrush x:Key="TabBorderBrush" Color="#6366F1"/>
+    <SolidColorBrush x:Key="PillBackgroundBrush" Color="#151C30"/>
+    <SolidColorBrush x:Key="PillBorderBrush" Color="#232C4A"/>
+    <SolidColorBrush x:Key="PillHoverBrush" Color="#1F2844"/>
+    <SolidColorBrush x:Key="SelectionBorderBrush" Color="#6366F1"/>
+
+    <!-- ─── Layered Structural Depth & Surface Hierarchy ───── -->
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#0B0E1A"/>
+    <SolidColorBrush x:Key="SidebarBorderBrush" Color="#1A2136"/>
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#0E1220"/>
+    <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#1A2136"/>
+    <SolidColorBrush x:Key="FileAreaBackgroundBrush" Color="#121729"/>
+    <SolidColorBrush x:Key="FileAreaBorderBrush" Color="#1F2740"/>
+    <SolidColorBrush x:Key="AddressBarBackgroundBrush" Color="#151C30"/>
+    <SolidColorBrush x:Key="AddressBarBorderBrush" Color="#232C4A"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#0B0E1A"/>
+    <SolidColorBrush x:Key="StatusBarBorderBrush" Color="#1A2136"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="#1A2136"/>
+
+    <!-- ─── Harmonized Spectral Icon Palette (Equal Luminance) ─ -->
+    <SolidColorBrush x:Key="FolderColorBrush" Color="#60A5FA"/>  <!-- Sky Sapphire -->
+    <SolidColorBrush x:Key="CodeColorBrush" Color="#38BDF8"/>    <!-- Sky Cyan -->
+    <SolidColorBrush x:Key="ImageColorBrush" Color="#A78BFA"/>   <!-- Soft Lavender -->
+    <SolidColorBrush x:Key="AudioColorBrush" Color="#C084FC"/>   <!-- Electric Orchid -->
+    <SolidColorBrush x:Key="VideoColorBrush" Color="#94A3B8"/>   <!-- Refined Slate -->
+    <SolidColorBrush x:Key="DocColorBrush" Color="#34D399"/>     <!-- Mint Emerald -->
+    <SolidColorBrush x:Key="ArchiveColorBrush" Color="#818CF8"/> <!-- Soft Iris -->
+    <SolidColorBrush x:Key="ExecColorBrush" Color="#818CF8"/>    <!-- Electric Iris -->
+    <SolidColorBrush x:Key="VaultColorBrush" Color="#6366F1"/>   <!-- Signature Indigo -->
+
+</ResourceDictionary>

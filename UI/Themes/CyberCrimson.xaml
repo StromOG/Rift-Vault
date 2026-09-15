@@ -1,0 +1,94 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- Cyber Crimson — Radiant Ruby Obsidian Dark Theme         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+
+    <!-- Base Canvas & Layered Luminance -->
+    <Color x:Key="BackgroundColor">#0E080C</Color>
+    <Color x:Key="SurfaceColor">#190E16</Color>
+    <Color x:Key="SurfaceRaisedColor">#22121D</Color>
+
+    <!-- Radiant Rose Crimson Accent -->
+    <Color x:Key="AccentColor">#F43F5E</Color>
+    <Color x:Key="AccentAltColor">#FB7185</Color>
+
+    <!-- Warm Rose High-Contrast Typography -->
+    <Color x:Key="TextPrimaryColor">#FFF1F2</Color>
+    <Color x:Key="TextSecondaryColor">#FECDD3</Color>
+    <Color x:Key="TextDimColor">#FB7185</Color>
+
+    <!-- Semantic Status -->
+    <Color x:Key="SuccessColor">#34D399</Color>
+    <Color x:Key="WarningColor">#FBBF24</Color>
+    <Color x:Key="ErrorColor">#F43F5E</Color>
+
+    <!-- Micro-Interactions & Borders -->
+    <Color x:Key="BorderColor">#351827</Color>
+    <Color x:Key="SelectionColor">#401221</Color>
+    <Color x:Key="HoverColor">#28121E</Color>
+
+    <!-- ─── Core Solid Brushes ──────────────────────────────── -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="{StaticResource SurfaceRaisedColor}"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentAltBrush" Color="{StaticResource AccentAltColor}"/>
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="TextDimBrush" Color="{StaticResource TextDimColor}"/>
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="SelectionBrush" Color="{StaticResource SelectionColor}"/>
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
+
+    <!-- ─── Subtle Backdrop Atmosphere Gradient ────────────── -->
+    <LinearGradientBrush x:Key="WindowBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0A0608" Offset="0.0"/>
+        <GradientStop Color="#160B12" Offset="0.5"/>
+        <GradientStop Color="#0C070A" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- ─── Floating Island & Card Brushes ─────────────────── -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#190E16"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#351827"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#24141E"/>
+    <SolidColorBrush x:Key="TabActiveBrush" Color="#2A1422"/>
+    <SolidColorBrush x:Key="TabBorderBrush" Color="#F43F5E"/>
+    <SolidColorBrush x:Key="PillBackgroundBrush" Color="#20111B"/>
+    <SolidColorBrush x:Key="PillBorderBrush" Color="#3C1A2B"/>
+    <SolidColorBrush x:Key="PillHoverBrush" Color="#2B1525"/>
+    <SolidColorBrush x:Key="SelectionBorderBrush" Color="#F43F5E"/>
+
+    <!-- ─── Layered Structural Depth & Surface Hierarchy ───── -->
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#10090D"/>
+    <SolidColorBrush x:Key="SidebarBorderBrush" Color="#2B1420"/>
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#140B11"/>
+    <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#2B1420"/>
+    <SolidColorBrush x:Key="FileAreaBackgroundBrush" Color="#180D15"/>
+    <SolidColorBrush x:Key="FileAreaBorderBrush" Color="#351827"/>
+    <SolidColorBrush x:Key="AddressBarBackgroundBrush" Color="#20111B"/>
+    <SolidColorBrush x:Key="AddressBarBorderBrush" Color="#3C1A2B"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#10090D"/>
+    <SolidColorBrush x:Key="StatusBarBorderBrush" Color="#2B1420"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="#2B1420"/>
+
+    <!-- ─── Harmonized Spectral Icon Palette ────────────────── -->
+    <SolidColorBrush x:Key="FolderColorBrush" Color="#FB7185"/>
+    <SolidColorBrush x:Key="CodeColorBrush" Color="#FDA4AF"/>
+    <SolidColorBrush x:Key="ImageColorBrush" Color="#E879F9"/>
+    <SolidColorBrush x:Key="AudioColorBrush" Color="#F472B6"/>
+    <SolidColorBrush x:Key="VideoColorBrush" Color="#FCA5A5"/>
+    <SolidColorBrush x:Key="DocColorBrush" Color="#34D399"/>
+    <SolidColorBrush x:Key="ArchiveColorBrush" Color="#FB7185"/>
+    <SolidColorBrush x:Key="ExecColorBrush" Color="#F43F5E"/>
+    <SolidColorBrush x:Key="VaultColorBrush" Color="#E11D48"/>
+
+</ResourceDictionary>

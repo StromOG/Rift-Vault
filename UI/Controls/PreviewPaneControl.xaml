@@ -1,0 +1,496 @@
+<UserControl x:Class="RiftVault.UI.Controls.PreviewPaneControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="clr-namespace:RiftVault.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="680" d:DesignWidth="380">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Border Background="{DynamicResource CardBackgroundBrush}"
+            BorderBrush="{DynamicResource CardBorderBrush}"
+            BorderThickness="1" CornerRadius="12" ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header -->
+                <RowDefinition Height="*"/>    <!-- Preview Canvas -->
+                <RowDefinition Height="Auto"/> <!-- Footer -->
+            </Grid.RowDefinitions>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 0: PREVIEW HEADER                           -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1"
+                    Padding="14,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- File Extension Badge Pill (e.g. MP4, PNG, JPG, TS) -->
+                    <Border Grid.Column="0" CornerRadius="6"
+                            Background="{DynamicResource PillBackgroundBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                            Padding="8,5" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding FileExtensionBadge, FallbackValue='FILE'}"
+                                   FontFamily="{DynamicResource UIFont}" FontSize="11" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"/>
+                    </Border>
+
+                    <!-- Title & Details Subtitle -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding FileName, FallbackValue='Preview'}"
+                                   FontFamily="{DynamicResource UIFontDisplay}" FontSize="13.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"
+                                   ToolTip="{Binding FilePath}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                            <TextBlock Text="{Binding FileSizeText}" FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                       Foreground="{DynamicResource TextDimBrush}"/>
+                            <TextBlock Text=" · " FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                       Foreground="{DynamicResource TextDimBrush}"/>
+                            <TextBlock Text="{Binding FileType}" FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                       Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Action Bar Buttons -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Close Preview Pane Button -->
+                        <Button Content="&#xE711;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                Style="{DynamicResource IconButton}" Width="28" Height="28"
+                                ToolTip="Close Preview (Alt+P)" Click="ClosePreview_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 1: PREVIEW CONTENT CANVASES                 -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Grid Grid.Row="1">
+                <!-- 1. No Selection / Empty State -->
+                <Grid x:Name="EmptyStateContainer" Visibility="Collapsed">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24">
+                        <Border Width="60" Height="60" CornerRadius="30" Background="{DynamicResource PillBackgroundBrush}"
+                                BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                HorizontalAlignment="Center" Margin="0,0,0,16">
+                            <TextBlock Text="&#xE8FF;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="26"
+                                       Foreground="{DynamicResource TextDimBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Select a file to preview" FontFamily="{DynamicResource UIFontDisplay}" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Photos, videos, audio, and code files render directly here with instant viewing, playback, and editing."
+                                   FontFamily="{DynamicResource UIFont}" FontSize="12" Foreground="{DynamicResource TextDimBrush}"
+                                   TextWrapping="Wrap" TextAlignment="Center" Margin="0,8,0,0" LineHeight="18"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 2. Photo / Image Preview -->
+                <Grid x:Name="ImagePreviewContainer" Visibility="Collapsed"
+                      Background="{DynamicResource FileAreaBackgroundBrush}">
+
+                    <!-- Scrollable & Zoomable Image Viewport -->
+                    <ScrollViewer x:Name="ImageScrollViewer"
+                                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                                  PreviewMouseWheel="ImageScrollViewer_PreviewMouseWheel"
+                                  MouseDown="ImageScrollViewer_MouseDown"
+                                  MouseMove="ImageScrollViewer_MouseMove"
+                                  MouseUp="ImageScrollViewer_MouseUp"
+                                  MouseDoubleClick="ImageScrollViewer_MouseDoubleClick">
+                        <Grid MinWidth="{Binding ActualWidth, ElementName=ImageScrollViewer}"
+                              MinHeight="{Binding ActualHeight, ElementName=ImageScrollViewer}">
+                            <Image x:Name="PreviewImage" Source="{Binding ImageSource}" Stretch="Uniform"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Margin="12"
+                                   RenderOptions.BitmapScalingMode="Fant">
+                                <Image.LayoutTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="{Binding ZoomLevel}" ScaleY="{Binding ZoomLevel}"/>
+                                        <RotateTransform Angle="{Binding ImageRotation}"/>
+                                    </TransformGroup>
+                                </Image.LayoutTransform>
+                            </Image>
+                        </Grid>
+                    </ScrollViewer>
+
+                    <!-- Floating Glass Image Controls Toolbar (Top) -->
+                    <Border VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,8,0,0"
+                            Background="#D90E1420" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                            CornerRadius="16" Padding="6,3" Panel.ZIndex="10">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" Direction="270" ShadowDepth="1" Opacity="0.18" Color="#000000"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- Zoom In -->
+                            <Button Content="&#xE71E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                    Style="{DynamicResource IconButton}" Width="26" Height="26"
+                                    ToolTip="Zoom In (+)" Command="{Binding ZoomInCommand}"/>
+
+                            <!-- Zoom Level Indicator -->
+                            <TextBlock Text="{Binding ZoomLevel, StringFormat='{}{0:P0}'}"
+                                       FontFamily="{DynamicResource UIFont}" FontSize="10.5" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="4,0"/>
+
+                            <!-- Zoom Out -->
+                            <Button Content="&#xE71F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                    Style="{DynamicResource IconButton}" Width="26" Height="26"
+                                    ToolTip="Zoom Out (-)" Command="{Binding ZoomOutCommand}"/>
+
+                            <!-- Reset / Fit -->
+                            <Button Content="&#xE740;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                    Style="{DynamicResource IconButton}" Width="26" Height="26" Margin="2,0"
+                                    ToolTip="Fit to View (100%)" Command="{Binding ResetZoomCommand}"/>
+
+                            <Border Width="1" Height="14" Background="{DynamicResource CardBorderBrush}" Margin="4,0"/>
+
+                            <!-- Rotate Left -->
+                            <Button Content="&#xE7A6;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                    Style="{DynamicResource IconButton}" Width="26" Height="26"
+                                    ToolTip="Rotate Left 90°" Command="{Binding RotateLeftCommand}"/>
+
+                            <!-- Rotate Right -->
+                            <Button Content="&#xE7A7;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                    Style="{DynamicResource IconButton}" Width="26" Height="26"
+                                    ToolTip="Rotate Right 90°" Command="{Binding RotateRightCommand}"/>
+
+                            <Border Width="1" Height="14" Background="{DynamicResource CardBorderBrush}" Margin="4,0"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Copied Feedback Notification Pill -->
+                    <Border VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,52,0,0"
+                            Background="#E610B981" CornerRadius="12" Padding="12,5"
+                            Visibility="{Binding IsImageCopiedFeedback, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}"
+                            Panel.ZIndex="15">
+                        <TextBlock Text="✓ Image copied to clipboard!" FontFamily="{DynamicResource UIFont}" FontSize="11.5" FontWeight="SemiBold"
+                                   Foreground="#FFFFFF"/>
+                    </Border>
+
+                    <!-- Floating Image Metadata Badge (Bottom) -->
+                    <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,12"
+                            Background="#D00B0E14" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                            CornerRadius="8" Padding="12,6" Panel.ZIndex="10">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6" Direction="270" ShadowDepth="1" Opacity="0.18" Color="#000000"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding DimensionsText}" FontFamily="{DynamicResource UIFont}" FontSize="11.5" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,8,0"/>
+                            <TextBlock Text="·" Foreground="{DynamicResource TextDimBrush}" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding MegapixelsText}" FontFamily="{DynamicResource UIFont}" FontSize="11.5"
+                                       Foreground="{DynamicResource AccentBrush}" Margin="0,0,8,0"/>
+                            <TextBlock Text="·" Foreground="{DynamicResource TextDimBrush}" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding AspectRatioText}" FontFamily="{DynamicResource UIFont}" FontSize="11.5"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 3. Video & Audio Player Preview -->
+                <Grid x:Name="MediaPreviewContainer" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Media Viewport (Clickable to Play/Pause) -->
+                    <Grid Grid.Row="0" Cursor="Hand" MouseLeftButtonDown="VideoArea_MouseLeftButtonDown">
+                        <Grid.Background>
+                            <RadialGradientBrush Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9" GradientOrigin="0.5,0.5">
+                                <GradientStop Color="#0e1320" Offset="0"/>
+                                <GradientStop Color="#06080e" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Grid.Background>
+
+                        <!-- MediaElement Player -->
+                        <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop"
+                                      ScrubbingEnabled="True" Margin="8" Stretch="Uniform"
+                                      MediaOpened="MediaPlayer_MediaOpened" MediaEnded="MediaPlayer_MediaEnded">
+                            <MediaElement.Effect>
+                                <DropShadowEffect BlurRadius="24" Direction="270" ShadowDepth="6" Opacity="0.4" Color="#000000"/>
+                            </MediaElement.Effect>
+                        </MediaElement>
+
+                        <!-- Top Badges Overlay: Looping & Speed Status -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10" Panel.ZIndex="5">
+                            <!-- Looping Toggle Pill -->
+                            <Border x:Name="LoopPill" Background="#CC0E1420" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                    CornerRadius="6" Padding="8,3" Margin="0,0,6,0" Cursor="Hand" MouseLeftButtonDown="LoopBtn_Click"
+                                    ToolTip="Toggle Automatic Looping (Ideal for live wallpapers)">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8EE;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                               Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Loop" FontFamily="{DynamicResource UIFont}" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Speed Toggle Pill -->
+                            <Border Background="#CC0E1420" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                    CornerRadius="6" Padding="8,3" Cursor="Hand" MouseLeftButtonDown="SpeedBtn_Click"
+                                    ToolTip="Playback Speed (Click to cycle)">
+                                <TextBlock Text="{Binding SpeedText, FallbackValue='1.0x'}"
+                                           FontFamily="{DynamicResource UIFont}" FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Center Play Overlay Indicator (Shown when paused) -->
+                        <Border x:Name="CenterPlayOverlay" Width="60" Height="60" CornerRadius="30"
+                                Background="#B3000000" BorderBrush="{DynamicResource AccentBrush}" BorderThickness="2"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" IsHitTestVisible="False">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" Opacity="0.5" Color="{DynamicResource AccentColor}"/>
+                            </Border.Effect>
+                            <TextBlock Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="24"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Sleek Video Transport Bar Island -->
+                    <Border Grid.Row="1" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="0,1,0,0" Padding="14,10">
+                        <StackPanel>
+                            <!-- Interactive Scrubber / Seekbar -->
+                            <Slider x:Name="MediaSeekSlider" Minimum="0" Maximum="1" Value="0"
+                                    Height="20" Margin="0,0,0,8" Style="{DynamicResource ModernSlider}"
+                                    IsMoveToPointEnabled="True"
+                                    PreviewMouseDown="MediaSeekSlider_PreviewMouseDown"
+                                    PreviewMouseUp="MediaSeekSlider_PreviewMouseUp"
+                                    ValueChanged="MediaSeekSlider_ValueChanged"/>
+
+                            <!-- Controls Row -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Playback Actions: Play/Pause, Rewind 5s, Forward 5s -->
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!-- Main Play/Pause Button -->
+                                    <Button x:Name="PlayPauseBtn" Content="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13"
+                                            Style="{DynamicResource IconButton}" Width="32" Height="32" Margin="0,0,3,0"
+                                            ToolTip="Play / Pause (Space)" Click="PlayPauseBtn_Click"/>
+
+                                    <!-- Rewind 5s -->
+                                    <Button Content="&#xE72C;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                            Style="{DynamicResource IconButton}" Width="26" Height="26" Margin="0,0,2,0"
+                                            ToolTip="Rewind 5s" Click="RewindBtn_Click"/>
+
+                                    <!-- Forward 5s -->
+                                    <Button Content="&#xE72D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                            Style="{DynamicResource IconButton}" Width="26" Height="26" Margin="0,0,2,0"
+                                            ToolTip="Forward 5s" Click="ForwardBtn_Click"/>
+                                </StackPanel>
+
+                                <!-- Time text -->
+                                <TextBlock x:Name="MediaTimeText" Grid.Column="1" Text="00:00 / 00:00"
+                                           FontFamily="{DynamicResource UIFont}" FontSize="12" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" TextAlignment="Center"/>
+
+                                <!-- Volume Control & Stop -->
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button x:Name="MuteBtn" Content="&#xE767;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                            Style="{DynamicResource IconButton}" Width="26" Height="26" Click="MuteBtn_Click"
+                                            ToolTip="Mute / Unmute"/>
+                                    <Slider x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="0.75" Width="64" Height="16" Margin="4,0,0,0"
+                                            Style="{DynamicResource ModernSlider}" IsMoveToPointEnabled="True"
+                                            ValueChanged="VolumeSlider_ValueChanged"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- 4. Code & Text Preview (Mini-Notepad Editor) -->
+                <Grid x:Name="CodeTextPreviewContainer" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/> <!-- Toolbar -->
+                        <RowDefinition Height="*"/>    <!-- Text Area -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Mini-Notepad Action Bar -->
+                    <Border Grid.Row="0" Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="0,0,0,1" Padding="10,6">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <!-- Mode Indicator / Toggle -->
+                                <ToggleButton x:Name="EditModeToggle" IsChecked="{Binding IsEditingText, Mode=TwoWay}"
+                                              Padding="10,4" Margin="0,0,8,0" Cursor="Hand">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="bg" Background="Transparent" CornerRadius="6" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Padding="{TemplateBinding Padding}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                                               Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                                    <TextBlock Text="Edit in Rift" FontFamily="{DynamicResource UIFont}" FontSize="11.5"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="bg" Property="Background" Value="{DynamicResource TabActiveBrush}"/>
+                                                    <Setter TargetName="bg" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="bg" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+
+                                <!-- Word Wrap Toggle -->
+                                <ToggleButton IsChecked="{Binding WrapText, Mode=TwoWay}"
+                                              Style="{DynamicResource ToggleIconButton}" Content="&#xE712;"
+                                              FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                              Width="28" Height="28" ToolTip="Toggle Word Wrap"/>
+
+                                <!-- Save Button -->
+                                <Button Content="&#xE74E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                        Style="{DynamicResource IconButton}" Width="28" Height="28" Margin="4,0,0,0"
+                                        Command="{Binding SaveTextCommand}" ToolTip="Save changes (Ctrl+S)"/>
+
+                                <!-- Unsaved / Saved Badge -->
+                                <Border Background="#33F59E0B" CornerRadius="4" Padding="6,2" Margin="8,0,0,0"
+                                        Visibility="{Binding IsTextDirty, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}">
+                                    <TextBlock Text="● Unsaved" FontFamily="{DynamicResource UIFont}" FontSize="10.5" FontWeight="SemiBold"
+                                               Foreground="#F59E0B"/>
+                                </Border>
+                                <Border Background="#3310B981" CornerRadius="4" Padding="6,2" Margin="8,0,0,0"
+                                        Visibility="{Binding IsTextSavedFeedback, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}">
+                                    <TextBlock Text="✓ Saved!" FontFamily="{DynamicResource UIFont}" FontSize="10.5" FontWeight="SemiBold"
+                                               Foreground="#34D399"/>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Line / Char Stats -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding LineCount, StringFormat='{}{0} lines'}" FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                           Foreground="{DynamicResource TextDimBrush}"/>
+                                <TextBlock Text=" · " FontFamily="{DynamicResource UIFont}" FontSize="11" Foreground="{DynamicResource TextDimBrush}"/>
+                                <TextBlock Text="{Binding TextEncoding}" FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                           Foreground="{DynamicResource TextDimBrush}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Text View & Edit Box -->
+                    <TextBox x:Name="CodeTextBox" Grid.Row="1"
+                              Text="{Binding TextContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsEditingText, Converter={StaticResource InverseBoolToVis}}"
+                              FontFamily="Cascadia Code, Consolas, Courier New, monospace" FontSize="12.5"
+                              Foreground="{DynamicResource TextPrimaryBrush}"
+                              Background="Transparent" BorderThickness="0"
+                              Padding="14,12" AcceptsReturn="True" AcceptsTab="True"
+                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                              TextChanged="CodeTextBox_TextChanged"
+                              KeyDown="CodeTextBox_KeyDown">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="TextWrapping" Value="NoWrap"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WrapText}" Value="True">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+
+                <!-- 5. Archive & Generic File Info Preview -->
+                <Grid x:Name="GenericPreviewContainer" Visibility="Collapsed">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24">
+                        <Border Width="68" Height="68" CornerRadius="16" Background="{DynamicResource PillBackgroundBrush}"
+                                BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                HorizontalAlignment="Center" Margin="0,0,0,18">
+                            <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="30"
+                                       Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBlock Text="{Binding FileName}" FontFamily="{DynamicResource UIFontDisplay}" FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding FileType}" FontFamily="{DynamicResource UIFont}" FontSize="12.5"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+
+                        <!-- Details Card -->
+                        <Border Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                CornerRadius="10" Padding="16,12" Width="280" Margin="0,0,0,18">
+                            <StackPanel>
+                                <Grid Margin="0,3">
+                                    <TextBlock Text="File Size" FontFamily="{DynamicResource UIFont}" FontSize="11.5" Foreground="{DynamicResource TextDimBrush}"/>
+                                    <TextBlock Text="{Binding FileSizeText}" HorizontalAlignment="Right" FontFamily="{DynamicResource UIFont}" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                </Grid>
+                                <Grid Margin="0,3">
+                                    <TextBlock Text="Date Modified" FontFamily="{DynamicResource UIFont}" FontSize="11.5" Foreground="{DynamicResource TextDimBrush}"/>
+                                    <TextBlock Text="{Binding DateModifiedText}" HorizontalAlignment="Right" FontFamily="{DynamicResource UIFont}" FontSize="11.5" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                </Grid>
+                                <Grid Margin="0,3" Visibility="{Binding ArchiveDetails, Converter={StaticResource InverseBoolToVis}, FallbackValue=Collapsed}">
+                                    <TextBlock Text="Content" FontFamily="{DynamicResource UIFont}" FontSize="11.5" Foreground="{DynamicResource TextDimBrush}"/>
+                                    <TextBlock Text="{Binding ArchiveDetails}" HorizontalAlignment="Right" FontFamily="{DynamicResource UIFont}" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Open File" FontFamily="{DynamicResource UIFont}" FontSize="12.5" FontWeight="SemiBold"
+                                    Style="{DynamicResource PrimaryButton}" Padding="18,7" Margin="0,0,8,0"
+                                    Command="{Binding OpenWithDefaultCommand}"/>
+                            <Button Content="Copy Path" FontFamily="{DynamicResource UIFont}" FontSize="12.5"
+                                    Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                    Foreground="{DynamicResource TextPrimaryBrush}" Padding="14,7"
+                                    Command="{Binding CopyPathCommand}"/>
+                        </StackPanel>
+
+                        <!-- Extract ZIP button if archive -->
+                        <Button Content="Extract All to Folder" FontFamily="{DynamicResource UIFont}" FontSize="12.5"
+                                Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
+                                Foreground="{DynamicResource AccentBrush}" Padding="16,7" Margin="0,12,0,0"
+                                HorizontalAlignment="Center" Command="{Binding ExtractZipCommand}"
+                                Visibility="{Binding ArchiveDetails, Converter={StaticResource InverseBoolToVis}, FallbackValue=Collapsed}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 2: PREVIEW FOOTER                           -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="0,1,0,0" Padding="14,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="&#xED25;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                   Foreground="{DynamicResource TextDimBrush}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding FilePath}" FontFamily="{DynamicResource UIFont}" FontSize="11"
+                                   Foreground="{DynamicResource TextDimBrush}" TextTrimming="CharacterEllipsis"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Copy Path Action Button with feedback -->
+                    <Button Grid.Column="1" Style="{DynamicResource IconButton}" Width="24" Height="24"
+                            ToolTip="Copy Full Path" Command="{Binding CopyPathCommand}">
+                        <TextBlock Text="&#xE8C8;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

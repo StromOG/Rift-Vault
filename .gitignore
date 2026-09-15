@@ -1,0 +1,34 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio & IDE files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Reference & External Repositories
+Refrence Files Entire Code/
+Reference Files Entire Code/
+
+# Python / Scratch temporary scripts & logs
+scratch_*.py
+*.log
+err.txt
+out.txt
+test_*.txt
+render_*.txt
+
+# OS & Environment files
+Thumbs.db
+.DS_Store
+.env
+.env.local
+.env.*.local

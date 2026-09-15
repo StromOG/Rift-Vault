@@ -1,0 +1,300 @@
+<Window x:Class="RiftVault.UI.ToolbarCustomizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Customize Toolbar" Height="620" Width="880"
+        MinHeight="500" MinWidth="750"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource TextPrimaryBrush}"
+        FontFamily="{DynamicResource UIFont}" FontSize="13"
+        WindowStyle="None" AllowsTransparency="False"
+        ResizeMode="CanResizeWithGrip">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="44" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="16" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Border x:Name="ToolbarRootBorder"
+            BorderBrush="{DynamicResource CardBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="16"
+            ClipToBounds="True"
+            RenderTransformOrigin="0.5,0.5">
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="ToolbarScale" ScaleX="0.95" ScaleY="0.95"/>
+                <TranslateTransform x:Name="ToolbarTranslate" Y="10"/>
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Grid Background="{DynamicResource WindowBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/> <!-- Title Bar -->
+            <RowDefinition Height="Auto"/> <!-- Info Banner -->
+            <RowDefinition Height="*"/> <!-- Two Columns: Active vs Available -->
+            <RowDefinition Height="Auto"/> <!-- Bottom Actions -->
+        </Grid.RowDefinitions>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- TITLE BAR                                  -->
+        <!-- ═══════════════════════════════════════════ -->
+        <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1">
+            <Grid Margin="16,0,8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="&#xE70F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="15"
+                               Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="Customize Toolbar" FontFamily="Segoe UI Variable, Segoe UI" FontSize="14" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Close Button -->
+                <Button Grid.Column="2" Content="&#xE711;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11"
+                        Width="36" Height="30" Style="{DynamicResource WindowControlCloseButton}"
+                        Click="CloseButton_Click" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"/>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- INFO BANNER & PRESET PROFILES               -->
+        <!-- ═══════════════════════════════════════════ -->
+        <Border Grid.Row="1" Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="20,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="&#xE946;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16"
+                           Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="Personalize your toolbar blocks and layout" FontFamily="Segoe UI Variable, Segoe UI" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="Drag items or use the ▲ / ▼ arrows to reorder. The address bar automatically expands to provide maximum space. Select a preset or customize blocks individually."
+                               FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" Foreground="{DynamicResource TextDimBrush}" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Preset Buttons -->
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,10,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="Presets:" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11.5" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Button Content="Standard Default" Style="{DynamicResource GlassButton}" Padding="10,3" Margin="0,0,6,0" FontSize="10.5" Click="PresetDefault_Click" ToolTip="Navigation, Breadcrumb, AppModes, AI Copilot, Overflow"/>
+                    <Button Content="Compact Minimal" Style="{DynamicResource GlassButton}" Padding="10,3" Margin="0,0,6,0" FontSize="10.5" Click="PresetCompact_Click" ToolTip="Essential Navigation, Breadcrumb &amp; Overflow"/>
+                    <Button Content="Power User" Style="{DynamicResource GlassButton}" Padding="10,3" Margin="0,0,6,0" FontSize="10.5" Click="PresetPowerUser_Click" ToolTip="Action Strip, Features, App Modes, AI &amp; Overflow"/>
+                    <Button Content="Media Focus" Style="{DynamicResource GlassButton}" Padding="10,3" Margin="0,0,6,0" FontSize="10.5" Click="PresetMedia_Click" ToolTip="Gallery Mode, Sort, Viewmode &amp; Overflow"/>
+                    <Button Content="Developer Workspace" Style="{DynamicResource GlassButton}" Padding="10,3" Margin="0,0,6,0" FontSize="10.5" Click="PresetDev_Click" ToolTip="Terminal, Git Badge, AI Copilot &amp; Actions"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- TWO-PANE CUSTOMIZER BODY                   -->
+        <!-- ═══════════════════════════════════════════ -->
+        <Grid Grid.Row="2" Margin="16,14,16,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: ACTIVE TOOLBAR BLOCKS -->
+            <Border Grid.Column="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Active Toolbar Layout" FontFamily="Segoe UI Variable, Segoe UI" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <Border Background="{DynamicResource PillBackgroundBrush}" CornerRadius="10" Padding="8,2" Margin="8,0,0,0">
+                                <TextBlock x:Name="ActiveCountText" Text="6 items" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" Foreground="{DynamicResource AccentBrush}"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="(Left to Right)" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" Foreground="{DynamicResource TextDimBrush}" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Active Items ScrollViewer -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                  AllowDrop="True" Drop="ActiveList_Drop" DragOver="ActiveList_DragOver">
+                        <ItemsControl x:Name="ActiveItemsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource SurfaceRaisedBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                                            BorderThickness="1" CornerRadius="7" Margin="0,0,0,8" Padding="10,8"
+                                            PreviewMouseLeftButtonDown="ActiveItem_PreviewMouseLeftButtonDown"
+                                            MouseMove="ActiveItem_MouseMove" AllowDrop="True" Drop="ActiveItem_Drop">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/> <!-- Drag Handle & Index -->
+                                                <ColumnDefinition Width="Auto"/> <!-- Icon -->
+                                                <ColumnDefinition Width="*"/>    <!-- Title & Subtitle -->
+                                                <ColumnDefinition Width="Auto"/> <!-- Controls (Up, Down, Remove) -->
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Drag Handle -->
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <TextBlock Text="&#xE700;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                                           Foreground="{DynamicResource TextDimBrush}" VerticalAlignment="Center" Cursor="SizeAll" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{Binding DisplayIndex}" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" FontWeight="Bold"
+                                                           Foreground="{DynamicResource TextDimBrush}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <!-- Icon -->
+                                            <Border Grid.Column="1" Width="30" Height="30" CornerRadius="6" Background="{DynamicResource PillBackgroundBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13"
+                                                           Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+
+                                            <!-- Title & Badge -->
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Title}" FontFamily="Segoe UI Variable, Segoe UI" FontSize="12.5" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                                    <Border Visibility="{Binding IsFlexibleBadgeVisible}" Background="{DynamicResource PillBackgroundBrush}"
+                                                            BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1"
+                                                            CornerRadius="4" Padding="5,1" Margin="6,0,0,0" VerticalAlignment="Center">
+                                                        <TextBlock Text="Flexible (Fills Space)" FontFamily="Segoe UI Variable, Segoe UI" FontSize="9.5" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource AccentBrush}"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Description}" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11"
+                                                           Foreground="{DynamicResource TextDimBrush}" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                                            </StackPanel>
+
+                                            <!-- Action Controls: Move Up, Move Down, Remove -->
+                                            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
+                                                <Button Content="&#xE70E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
+                                                        Width="26" Height="26" Style="{DynamicResource IconButton}"
+                                                        ToolTip="Move Left / Up" Tag="{Binding}" Click="MoveUp_Click" Margin="0,0,4,0"/>
+                                                <Button Content="&#xE70D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
+                                                        Width="26" Height="26" Style="{DynamicResource IconButton}"
+                                                        ToolTip="Move Right / Down" Tag="{Binding}" Click="MoveDown_Click" Margin="0,0,6,0"/>
+                                                <Button Content="&#xE711;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10"
+                                                        Width="26" Height="26" Style="{DynamicResource IconButton}"
+                                                        ToolTip="Remove from Toolbar" Tag="{Binding}" Click="RemoveBlock_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT: AVAILABLE TOOL BLOCKS -->
+            <Border Grid.Column="2" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Available Tool Blocks" FontFamily="Segoe UI Variable, Segoe UI" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <Border Background="{DynamicResource PillBackgroundBrush}" CornerRadius="10" Padding="8,2" Margin="8,0,0,0">
+                                <TextBlock x:Name="AvailableCountText" Text="7 items" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="Click '+ Add' to include" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" Foreground="{DynamicResource TextDimBrush}" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Available Items ScrollViewer -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl x:Name="AvailableItemsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource SurfaceRaisedBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                                            BorderThickness="1" CornerRadius="7" Margin="0,0,0,8" Padding="10,8"
+                                            PreviewMouseLeftButtonDown="AvailableItem_PreviewMouseLeftButtonDown"
+                                            MouseMove="AvailableItem_MouseMove">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/> <!-- Icon -->
+                                                <ColumnDefinition Width="*"/>    <!-- Title & Description -->
+                                                <ColumnDefinition Width="Auto"/> <!-- + Add Button -->
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Icon -->
+                                            <Border Grid.Column="0" Width="30" Height="30" CornerRadius="6" Background="{DynamicResource PillBackgroundBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13"
+                                                           Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+
+                                            <!-- Title & Description -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Title}" FontFamily="Segoe UI Variable, Segoe UI" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="{Binding Description}" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11"
+                                                           Foreground="{DynamicResource TextDimBrush}" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                                            </StackPanel>
+
+                                            <!-- + Add Button -->
+                                            <Button Grid.Column="2" Content="+ Add" FontFamily="Segoe UI Variable, Segoe UI" FontSize="11" FontWeight="SemiBold"
+                                                    Style="{DynamicResource CommandStripButtonStyle}" Padding="10,4" VerticalAlignment="Center"
+                                                    Tag="{Binding}" Click="AddBlock_Click"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- BOTTOM ACTION BAR                          -->
+        <!-- ═══════════════════════════════════════════ -->
+        <Border Grid.Row="3" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,1,0,0" Padding="16,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Reset to Default -->
+                <Button Grid.Column="0" Style="{DynamicResource GlassButton}" Padding="14,8" Click="ResetDefaults_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Reset to Default Layout" FontFamily="Segoe UI Variable, Segoe UI" FontSize="12" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Right: Done Button -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Style="{DynamicResource GlassButton}" Content="Cancel" Padding="16,8" Margin="0,0,8,0" Click="CloseButton_Click"/>
+                    <Button Style="{DynamicResource CommandStripPrimaryButtonStyle}" Padding="20,8" Click="ApplyAndClose_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Save &amp; Apply Layout" FontFamily="Segoe UI Variable, Segoe UI" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+    </Border>
+</Window>

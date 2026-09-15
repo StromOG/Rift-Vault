@@ -1,0 +1,105 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- Sandstorm Peach — Bright Warm Sand, Desert Peach Theme  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+
+    <!-- Base Canvas & Layered Luminance (Bright & Warm Sand Palette) -->
+    <Color x:Key="BackgroundColor">#FAF5EE</Color>
+    <Color x:Key="SurfaceColor">#FFFFFF</Color>
+    <Color x:Key="SurfaceRaisedColor">#F3ECE2</Color>
+
+    <!-- Warm Terracotta Peach Accent & Sunlit Gold Alt -->
+    <Color x:Key="AccentColor">#E07A5F</Color>
+    <Color x:Key="AccentAltColor">#F4A261</Color>
+
+    <!-- Deep High-Contrast Typography (Crisp Espresso Charcoal) -->
+    <Color x:Key="TextPrimaryColor">#261E1A</Color>
+    <Color x:Key="TextSecondaryColor">#685548</Color>
+    <Color x:Key="TextDimColor">#998475</Color>
+
+    <!-- Semantic Status -->
+    <Color x:Key="SuccessColor">#2A9D8F</Color>
+    <Color x:Key="WarningColor">#E76F51</Color>
+    <Color x:Key="ErrorColor">#D90429</Color>
+
+    <!-- Micro-Interactions & Borders -->
+    <Color x:Key="BorderColor">#E4DBD0</Color>
+    <Color x:Key="SelectionColor">#FFE9DF</Color>
+    <Color x:Key="HoverColor">#F5ECE1</Color>
+
+    <!-- ─── Core Solid Brushes ──────────────────────────────── -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="{StaticResource SurfaceRaisedColor}"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentAltBrush" Color="{StaticResource AccentAltColor}"/>
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="TextDimBrush" Color="{StaticResource TextDimColor}"/>
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="SelectionBrush" Color="{StaticResource SelectionColor}"/>
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
+
+    <!-- ─── Subtle Sandstorm Desert Atmosphere Gradient ────── -->
+    <LinearGradientBrush x:Key="WindowBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FCF9F4" Offset="0.0"/>
+        <GradientStop Color="#F7F1E7" Offset="0.5"/>
+        <GradientStop Color="#EFE6DA" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- ─── Floating Island & Card Brushes ─────────────────── -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E5DDD2"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#F7F1E7"/>
+    <SolidColorBrush x:Key="TabActiveBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TabBorderBrush" Color="#E07A5F"/>
+    <SolidColorBrush x:Key="PillBackgroundBrush" Color="#F2EBE0"/>
+    <SolidColorBrush x:Key="PillBorderBrush" Color="#E2D7C8"/>
+    <SolidColorBrush x:Key="PillHoverBrush" Color="#E9DFD2"/>
+    <SolidColorBrush x:Key="SelectionBorderBrush" Color="#E07A5F"/>
+
+    <!-- ─── Layered Structural Depth & Surface Hierarchy ───── -->
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#F4ECE1"/>
+    <SolidColorBrush x:Key="SidebarBorderBrush" Color="#E2D7C7"/>
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#FAF5ED"/>
+    <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#E6DCD1"/>
+    <SolidColorBrush x:Key="FileAreaBackgroundBrush" Color="#FCF9F5"/>
+    <SolidColorBrush x:Key="FileAreaBorderBrush" Color="#E6DCD1"/>
+    <SolidColorBrush x:Key="AddressBarBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AddressBarBorderBrush" Color="#DCD2C3"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#F1E6D9"/>
+    <SolidColorBrush x:Key="StatusBarBorderBrush" Color="#E0D4C4"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="#E6DCD1"/>
+
+    <!-- ─── Translucent Glass & Acrylic Overlay Brushes ────── -->
+    <SolidColorBrush x:Key="TranslucentHeaderBrush" Color="#D0FAF5EE"/>
+    <SolidColorBrush x:Key="TranslucentSidebarBrush" Color="#E5F4ECE1"/>
+    <SolidColorBrush x:Key="TranslucentToolbarBrush" Color="#E0FAF5ED"/>
+    <SolidColorBrush x:Key="TranslucentFileAreaBrush" Color="#C8FCF9F5"/>
+    <SolidColorBrush x:Key="TranslucentStatusBarBrush" Color="#E0F1E6D9"/>
+    <SolidColorBrush x:Key="TranslucentCardBrush" Color="#D8FFFFFF"/>
+    <SolidColorBrush x:Key="TranslucentPillBrush" Color="#CCF2EBE0"/>
+    <SolidColorBrush x:Key="GlassBorderBrush" Color="#50E5DDD2"/>
+    <SolidColorBrush x:Key="GlassAccentGlowBrush" Color="#30E07A5F"/>
+
+    <!-- ─── Harmonized Desert Warmth Icon Palette ───────────── -->
+    <SolidColorBrush x:Key="FolderColorBrush" Color="#E07A5F"/>
+    <SolidColorBrush x:Key="CodeColorBrush" Color="#3D5A80"/>
+    <SolidColorBrush x:Key="ImageColorBrush" Color="#E76F51"/>
+    <SolidColorBrush x:Key="AudioColorBrush" Color="#C97A7E"/>
+    <SolidColorBrush x:Key="VideoColorBrush" Color="#D97706"/>
+    <SolidColorBrush x:Key="DocColorBrush" Color="#4F772D"/>
+    <SolidColorBrush x:Key="ArchiveColorBrush" Color="#9C6644"/>
+    <SolidColorBrush x:Key="ExecColorBrush" Color="#BC6C25"/>
+    <SolidColorBrush x:Key="VaultColorBrush" Color="#E07A5F"/>
+
+</ResourceDictionary>

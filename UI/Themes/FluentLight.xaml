@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- Fluent Light — Official Files App / WinUI 3 Palette     -->
+    <!-- High-Depth Layered Surfaces, Pristine White Canvas     -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+
+    <!-- Base Canvas & Layered Luminance (Mica / Solid Fills) -->
+    <Color x:Key="BackgroundColor">#F3F3F3</Color>
+    <Color x:Key="SurfaceColor">#FAFAFA</Color>
+    <Color x:Key="SurfaceRaisedColor">#FFFFFF</Color>
+
+    <!-- Windows 11 Fluent Blue Primary Accent -->
+    <Color x:Key="AccentColor">#0078D4</Color>
+    <Color x:Key="AccentAltColor">#0067C0</Color>
+
+    <!-- Crisp High-Contrast Typography Hierarchy (Solid Legibility) -->
+    <Color x:Key="TextPrimaryColor">#1A1A1A</Color>
+    <Color x:Key="TextSecondaryColor">#4A4A4A</Color>
+    <Color x:Key="TextDimColor">#6E6E6E</Color>
+
+    <!-- Semantic Status Colors -->
+    <Color x:Key="SuccessColor">#107C41</Color>
+    <Color x:Key="WarningColor">#C19C00</Color>
+    <Color x:Key="ErrorColor">#D13438</Color>
+
+    <!-- Micro-Interactions & Border Strokes (Fluent 2 Subtle Grayscale) -->
+    <Color x:Key="BorderColor">#E5E5E5</Color>
+    <Color x:Key="SelectionColor">#E5F1FB</Color>
+    <Color x:Key="HoverColor">#F2F4F7</Color>
+
+    <!-- ─── Core Solid Brushes ──────────────────────────────── -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="{StaticResource SurfaceRaisedColor}"/>
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentAltBrush" Color="{StaticResource AccentAltColor}"/>
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}"/>
+    <SolidColorBrush x:Key="TextDimBrush" Color="{StaticResource TextDimColor}"/>
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="SelectionBrush" Color="{StaticResource SelectionColor}"/>
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}"/>
+
+    <!-- ─── Subtle Backdrop Atmosphere Gradient (Mica Fill) ── -->
+    <LinearGradientBrush x:Key="WindowBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#F8F8F8" Offset="0.0"/>
+        <GradientStop Color="#F3F3F3" Offset="0.5"/>
+        <GradientStop Color="#EFEFEF" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- ─── Floating Island & Card Brushes ─────────────────── -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#F2F4F7"/>
+    <SolidColorBrush x:Key="TabActiveBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TabBorderBrush" Color="#0078D4"/>
+    <SolidColorBrush x:Key="PillBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PillBorderBrush" Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="PillHoverBrush" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="SelectionBorderBrush" Color="#0078D4"/>
+
+    <!-- ─── Layered Structural Depth & Surface Hierarchy ───── -->
+    <!-- Window/Mica -> Sidebar (#F3F3F3) -> File Canvas Island (#FFFFFF) -->
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#F3F3F3"/>
+    <SolidColorBrush x:Key="SidebarBorderBrush" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#F3F3F3"/>
+    <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="FileAreaBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="FileAreaBorderBrush" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="AddressBarBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AddressBarBorderBrush" Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#F3F3F3"/>
+    <SolidColorBrush x:Key="StatusBarBorderBrush" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="#E5E5E5"/>
+
+    <!-- ─── Harmonized Spectral Icon Palette (Windows 11 Fluent) -->
+    <SolidColorBrush x:Key="FolderColorBrush" Color="#F0BA46"/>
+    <SolidColorBrush x:Key="CodeColorBrush" Color="#0078D4"/>
+    <SolidColorBrush x:Key="ImageColorBrush" Color="#8764B8"/>
+    <SolidColorBrush x:Key="AudioColorBrush" Color="#E3008C"/>
+    <SolidColorBrush x:Key="VideoColorBrush" Color="#E74856"/>
+    <SolidColorBrush x:Key="DocColorBrush" Color="#107C41"/>
+    <SolidColorBrush x:Key="ArchiveColorBrush" Color="#5C2D91"/>
+    <SolidColorBrush x:Key="ExecColorBrush" Color="#008272"/>
+    <SolidColorBrush x:Key="VaultColorBrush" Color="#0078D4"/>
+
+</ResourceDictionary>

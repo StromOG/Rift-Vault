@@ -1,0 +1,19 @@
+<Application x:Class="RiftVault.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:RiftVault.UI.Converters"
+             Startup="OnStartup"
+             DispatcherUnhandledException="OnDispatcherUnhandledException">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Themes/SharedStyles.xaml"/>
+                <ResourceDictionary Source="UI/Themes/SandstormPeach.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVis"/>
+            <converters:FileSizeConverter x:Key="FileSizeConverter"/>
+            <converters:RelativeDateConverter x:Key="RelativeDateConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
