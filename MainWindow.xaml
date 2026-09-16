@@ -21,9 +21,9 @@
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="48"
-                      ResizeBorderThickness="6"
+                      ResizeBorderThickness="3"
                       GlassFrameThickness="0"
-                      CornerRadius="16"
+                      CornerRadius="10"
                       UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
@@ -440,9 +440,9 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="FontFamily" Value="{DynamicResource UIFont}"/>
-            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="FontSize" Value="12.5"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="10,7"/>
+            <Setter Property="Padding" Value="8,4"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
             <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -868,7 +868,7 @@
             Background="{DynamicResource WindowBackgroundBrush}"
             BorderBrush="{DynamicResource CardBorderBrush}"
             BorderThickness="1"
-            CornerRadius="8"
+            CornerRadius="6"
             ClipToBounds="True"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
@@ -1545,8 +1545,8 @@
                                 </Border>
 
                                 <!-- Block 5: Sort Button with Dropdown Menu -->
-                                <Button x:Name="ToolbarBlock_Sort" Content="&#xE8CB;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13"
-                                        Width="34" Height="34" Margin="0,0,6,0" ToolTip="Sort by..." Click="SortButton_Click"
+                                <Button x:Name="ToolbarBlock_Sort" Content="&#xE8CB;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                        Width="30" Height="30" Margin="0,0,6,0" ToolTip="Sort by..." Click="SortButton_Click"
                                         Background="{DynamicResource PillBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
                                         Foreground="{DynamicResource TextSecondaryBrush}" Cursor="Hand">
                                     <Button.ContextMenu>
@@ -1562,7 +1562,7 @@
                                     </Button.ContextMenu>
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Border x:Name="bg" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7">
+                                            <Border x:Name="bg" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <ControlTemplate.Triggers>
